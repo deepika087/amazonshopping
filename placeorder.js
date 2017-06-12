@@ -25,7 +25,7 @@ function validateOrder(objectType, gender){
   if (objectTypeList.indexOf(objectType) > -1
       &&  (gender == null || genderList.indexOf(gender) < 0) ) {
         console.log('Point1')
-        return buildValidationResult(false, 'object', `${objectType} is a gender specific option. Please specify the option`);
+        return buildValidationResult(false, 'gender', `${objectType} is a gender specific option. Please specify the option`);
   }
   if (neutralItems.indexOf(objectType) > -1
       &&  (gender == null || genderList.indexOf(gender) < 0) ) {
@@ -60,6 +60,7 @@ module.exports = function(intentRequest, callback) {
       const slots = intentRequest.currentIntent.slots;
       const validationResult = validateOrder(objectType, gender);
       console.log('Validation result', validationResult.isValid);
+      console.log('Dumping slots:' + JSON.stringify(slots))
       if (!validationResult.isValid) {
         slots[`${validationResult.violatedSlot}`] = null;
         callback(lexResponses.elicitSlot(
